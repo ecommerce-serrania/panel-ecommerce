@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de Mando — Contenido Digital Ecommerce · Serranía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F2A44; --ink-soft:#33415e; --brass:#B08D57;
+    --linen:#F6F3EC; --linen-deep:#EDE7D8; --charcoal:#2B2B2B;
+    --sage:#6B8F71; --sage-bg:#e7efe8; --amber:#C08A2E; --amber-bg:#faf1de;
+    --stitch:#8C3F3F; --stitch-bg:#f6e8e8; --grey:#8d897f; --grey-bg:#eeece5;
+    --line:#DED7C4; --white:#FFFFFF; --radius:14px;
+    --phaseA:#1F2A44; --phaseB:#5C7290; --phaseC:#B08D57; --phaseD:#8C3F3F;
+    --google:#4285F4; --meta:#0866FF; --organico:#6B8F71;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--linen);color:var(--charcoal);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .app{max-width:1140px;margin:0 auto;padding:26px 20px 90px;}
+  h1,h2,h3{font-family:'Fraunces',serif;margin:0;}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:600;color:var(--brass);margin:0 0 6px;}
+  header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;border-bottom:2px dashed var(--line);padding-bottom:18px;margin-bottom:8px;}
+  header.top h1{font-size:26px;color:var(--ink);font-weight:600;}
+  header.top .sub{font-size:13.5px;color:var(--grey);margin-top:6px;max-width:520px;}
+  .header-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn-mini{background:var(--white);border:1px solid var(--line);color:var(--ink-soft);font-size:12px;font-weight:600;padding:8px 12px;border-radius:20px;cursor:pointer;font-family:'Inter';display:inline-flex;align-items:center;gap:6px;}
+  .btn-mini:hover{border-color:var(--brass);color:var(--brass);}
+  .env-note{font-size:11.5px;color:var(--grey);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:12px 0 22px;}
+  .env-note b{color:var(--ink-soft);}
+
+  .overview{display:grid;grid-template-columns:190px 1fr;gap:24px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:24px;align-items:center;}
+  .ring-wrap{position:relative;width:170px;height:170px;margin:0 auto;}
+  .ring{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--phaseA) 0% 30%,var(--phaseB) 30% 45%,var(--phaseC) 45% 70%,var(--phaseD) 70% 100%);}
+  .ring-hole{position:absolute;inset:15px;background:var(--white);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .ring-hole .day{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--ink);line-height:1;}
+  .ring-hole .of20{font-size:10.5px;color:var(--grey);margin-top:2px;}
+  .ring-hole .phase-label{margin-top:6px;font-size:10.5px;font-weight:600;}
+  .marker{position:absolute;width:11px;height:11px;border-radius:50%;background:var(--white);border:3px solid var(--ink);transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(31,42,68,0.15);}
+  .day-controls{display:flex;gap:6px;justify-content:center;margin-top:8px;}
+  .day-controls button{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:var(--linen);cursor:pointer;font-size:13px;color:var(--ink);}
+  .day-controls input{width:42px;text-align:center;border:1px solid var(--line);border-radius:8px;font-size:12.5px;padding:4px 2px;}
+  .startdate{font-size:10.5px;color:var(--grey);text-align:center;margin-top:6px;}
+  .startdate input{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:2px 4px;}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;}
+  .stat{background:var(--linen);border-radius:10px;padding:12px 13px;border:1px solid var(--line);}
+  .stat .num{font-family:'Fraunces',serif;font-size:21px;font-weight:700;color:var(--ink);}
+  .stat .label{font-size:11px;color:var(--grey);margin-top:2px;line-height:1.3;}
+  .legend{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--grey);margin-top:2px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .reset-row{grid-column:1/-1;display:flex;justify-content:flex-end;}
+  .btn-ghost{background:none;border:1px solid var(--line);color:var(--grey);padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Inter';}
+  .btn-ghost:hover{border-color:var(--brass);color:var(--brass);}
+
+  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .tab-btn{font-weight:600;font-size:13px;padding:9px 15px;border-radius:20px;border:1px solid var(--line);background:var(--white);color:var(--ink-soft);cursor:pointer;font-family:'Inter';}
+  .tab-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .phase{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+  .phase-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-left:5px solid var(--ink);}
+  .phase-head h3{font-size:16px;color:var(--ink);font-weight:600;}
+  .phase-head .days{font-size:11.5px;color:var(--grey);margin-top:3px;}
+  .phase-head .progress-mini{font-size:12px;color:var(--brass);font-weight:600;}
+  .phase-body{padding:4px 18px 16px;}
+  .task-row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--linen-deep);}
+  .task-row:last-of-type{border-bottom:none;}
+  .task-row input[type=checkbox]{margin-top:3px;width:16px;height:16px;accent-color:var(--sage);cursor:pointer;flex:none;}
+  .task-main{flex:1;min-width:0;}
+  .task-text{font-size:14px;line-height:1.4;}
+  .task-text.done{color:var(--grey);text-decoration:line-through;}
+  .task-meta{display:flex;gap:8px;align-items:center;margin-top:4px;}
+  .task-meta label{font-size:10.5px;color:var(--grey);}
+  .task-meta input.day-pick{width:42px;font-size:11.5px;padding:2px 3px;border:1px solid var(--line);border-radius:5px;}
+  .task-note{width:100%;margin-top:6px;font-size:12.5px;color:var(--charcoal);border:1px dashed var(--line);border-radius:8px;padding:6px 8px;background:var(--linen);resize:vertical;min-height:30px;font-family:'Inter';}
+  .task-del{background:none;border:none;color:var(--grey);cursor:pointer;font-size:15px;flex:none;padding:2px 4px;}
+  .task-del:hover{color:var(--stitch);}
+  .add-row{display:flex;gap:8px;margin-top:10px;}
+  .add-row input{flex:1;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:'Inter';}
+  .add-row button{background:var(--ink);color:var(--white);border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;}
+  .add-row button:hover{background:var(--ink-soft);}
+
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:760px){.cat-grid{grid-template-columns:1fr;} .overview{grid-template-columns:1fr;}}
+  .cat-col h3{font-size:15px;margin-bottom:4px;}
+  .cat-col .cat-sub{font-size:12px;color:var(--grey);margin-bottom:12px;}
+  .cat-col.top h3{color:var(--sage);} .cat-col.low h3{color:var(--stitch);}
+  .cat-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+  .cat-card .row1{display:flex;justify-content:space-between;gap:8px;align-items:center;}
+  .cat-card input.name{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px;border:none;background:none;flex:1;min-width:0;padding:2px;}
+  .cat-card textarea{width:100%;margin-top:8px;font-size:12.5px;border:1px solid var(--linen-deep);background:var(--linen);border-radius:8px;padding:6px 8px;resize:vertical;min-height:36px;font-family:'Inter';}
+  .cat-card .row2{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+  .cat-card .row2 select{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:3px 5px;font-family:'Inter';}
+  .add-card-btn{width:100%;border:1.5px dashed var(--line);background:none;border-radius:10px;padding:10px;font-size:13px;color:var(--grey);cursor:pointer;font-weight:600;font-family:'Inter';}
+  .add-card-btn:hover{border-color:var(--brass);color:var(--brass);}
+
+  table.kpi, table.camp{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  table.kpi thead th, table.camp thead th{background:var(--ink);color:var(--white);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:9px 10px;text-align:left;font-weight:600;}
+  table.kpi td, table.camp td{padding:8px 10px;border-bottom:1px solid var(--linen-deep);font-size:12.5px;vertical-align:top;}
+  table.kpi tr:last-child td, table.camp tr:last-child td{border-bottom:none;}
+  table.kpi td.name{font-weight:600;color:var(--ink-soft);width:24%;}
+  table.kpi input, table.kpi textarea, table.kpi select,
+  table.camp input, table.camp select{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:5px 6px;width:100%;font-family:'Inter';}
+  table.kpi textarea{min-height:32px;resize:vertical;}
+  .kpi-del{background:none;border:none;color:var(--grey);cursor:pointer;font-size:15px;}
+  .kpi-del:hover{color:var(--stitch);}
+  .add-kpi{margin-top:10px;}
+
+  .notas-add{display:flex;gap:8px;margin-bottom:16px;}
+  .notas-add input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;}
+  .notas-add button{background:var(--brass);color:var(--white);border:none;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;}
+  .nota-item{display:flex;gap:10px;align-items:flex-start;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;}
+  .nota-item input[type=checkbox]{margin-top:3px;accent-color:var(--sage);}
+  .nota-item .txt{flex:1;font-size:14px;}
+  .nota-item .txt.done{color:var(--grey);text-decoration:line-through;}
+  .nota-item .date{font-size:11px;color:var(--grey);margin-top:2px;}
+  .nota-del{background:none;border:none;color:var(--grey);cursor:pointer;font-size:15px;}
+  .nota-del:hover{color:var(--stitch);}
+  .empty-hint{font-size:13px;color:var(--grey);font-style:italic;padding:14px 0;}
+
+  /* Calendar */
+  .cal-head-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;}
+  .cal-head-row div{text-align:center;font-size:11px;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:.05em;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .cal-cell{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:118px;display:flex;flex-direction:column;}
+  .cal-cell.empty{background:transparent;border:none;}
+  .cal-cell .cc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+  .cal-cell .cc-date{font-size:11px;color:var(--grey);}
+  .cal-cell .cc-badge{font-size:10px;font-weight:700;color:#fff;padding:2px 7px;border-radius:10px;}
+  .cal-cell.today{border:2px solid var(--brass);}
+  .cal-task{display:flex;gap:5px;align-items:flex-start;font-size:11px;margin-bottom:4px;line-height:1.25;}
+  .cal-task input{margin-top:2px;accent-color:var(--sage);flex:none;}
+  .cal-task span.done{color:var(--grey);text-decoration:line-through;}
+  .cal-add{display:flex;gap:3px;margin-top:auto;}
+  .cal-add input{flex:1;font-size:10.5px;border:1px solid var(--line);border-radius:5px;padding:3px 4px;min-width:0;}
+  .cal-add button{border:none;background:var(--linen-deep);border-radius:5px;font-size:11px;padding:3px 6px;cursor:pointer;}
+  @media(max-width:760px){
+    .cal-grid, .cal-head-row{grid-template-columns:repeat(7,minmax(38px,1fr));}
+    .cal-cell{min-height:90px;padding:5px;font-size:10px;}
+  }
+
+  /* Rendimiento */
+  .perf-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px;}
+  .perf-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .perf-card .plabel{font-size:11px;color:var(--grey);margin-bottom:4px;}
+  .perf-card .pval{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink);}
+  .perf-card.goal input{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--ink);border:none;background:none;width:100%;padding:0;}
+  .progress-bar{height:8px;background:var(--linen-deep);border-radius:5px;margin-top:8px;overflow:hidden;}
+  .progress-bar .fill{height:100%;background:var(--sage);border-radius:5px;}
+  .channel-block{margin-bottom:22px;}
+  .channel-title{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .channel-dot{width:11px;height:11px;border-radius:50%;}
+  .channel-title h3{font-size:15px;}
+
+  #save-flag{position:fixed;bottom:16px;right:18px;background:var(--ink);color:#fff;font-size:11.5px;padding:6px 12px;border-radius:20px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50;}
+  #save-flag.show{opacity:.85;}
+
+  @media print{
+    .tabs, .header-actions, .reset-row, .env-note, .add-row, .add-card-btn, .cal-add, #save-flag{display:none !important;}
+    .tab-panel{display:block !important;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Serranía · Contenido Digital Ecommerce</p>
+      <h1>Centro de Mando del Ciclo</h1>
+      <p class="sub">Cronograma, calendario, catálogo, campañas e indicadores — todo en un solo lugar, con memoria entre sesiones.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-mini" id="exportBtn">⬇ Exportar todo (.json)</button>
+      <label class="btn-mini" style="cursor:pointer;">⬆ Importar
+        <input type="file" id="importFile" accept="application/json" style="display:none;">
+      </label>
+      <button class="btn-mini" id="printBtn">🖨 Imprimir / PDF</button>
+    </div>
+  </header>
+
+  <div class="env-note" id="envNote"></div>
+
+  <section class="overview">
+    <div>
+      <div class="ring-wrap">
+        <div class="ring"></div>
+        <div class="ring-hole">
+          <div class="day" id="dayDisplay">1</div>
+          <div class="of20">de 20 días</div>
+          <div class="phase-label" id="phaseLabel">Fase A</div>
+        </div>
+        <div class="marker" id="marker"></div>
+      </div>
+      <div class="day-controls">
+        <button id="dayMinus">–</button>
+        <input type="number" id="dayInput" min="1" max="20" value="1">
+        <button id="dayPlus">+</button>
+      </div>
+      <div class="startdate">Inicio del ciclo:<br><input type="date" id="startDateInput"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num" id="statTasks">0/0</div><div class="label">Tareas del cronograma completadas</div></div>
+      <div class="stat"><div class="num" id="statKpi">0</div><div class="label">KPIs en riesgo o atrasados</div></div>
+      <div class="stat"><div class="num" id="statCat">0</div><div class="label">Productos en seguimiento</div></div>
+      <div class="stat"><div class="num" id="statRoas">—</div><div class="label">ROAS global de campañas</div></div>
+      <div class="legend">
+        <span><i style="background:var(--phaseA)"></i>Fase A · Producción visual</span>
+        <span><i style="background:var(--phaseB)"></i>Fase B · Shopify</span>
+        <span><i style="background:var(--phaseC)"></i>Fase C · Comunicación</span>
+        <span><i style="background:var(--phaseD)"></i>Fase D · Publicación y análisis</span>
+      </div>
+      <div class="reset-row">
+        <button class="btn-ghost" id="resetCycle">↻ Iniciar nuevo ciclo (reinicia cronograma, calendario y día)</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="cronograma">Cronograma</button>
+    <button class="tab-btn" data-tab="calendario">Calendario</button>
+    <button class="tab-btn" data-tab="catalogo">Catálogo</button>
+    <button class="tab-btn" data-tab="rendimiento">Rendimiento de campañas</button>
+    <button class="tab-btn" data-tab="kpis">Indicadores (KPIs)</button>
+    <button class="tab-btn" data-tab="notas">Notas y tareas nuevas</button>
+  </div>
+
+  <div id="cronograma" class="tab-panel active"></div>
+  <div id="calendario" class="tab-panel"></div>
+  <div id="catalogo" class="tab-panel"></div>
+  <div id="rendimiento" class="tab-panel"></div>
+  <div id="kpis" class="tab-panel"></div>
+  <div id="notas" class="tab-panel"></div>
+
+</div>
+<div id="save-flag">Guardado</div>
+
+<script>
+const STORAGE_KEY = 'ecommerce-dashboard-serrania-v2';
+
+/* ---------- Storage adapter: Claude artifact storage OR browser localStorage ---------- */
+const hasClaudeStorage = (typeof window.storage !== 'undefined') && window.storage && typeof window.storage.get === 'function';
+const storageAdapter = {
+  async get(key){
+    if(hasClaudeStorage){ try{ return await window.storage.get(key); }catch(e){ return null; } }
+    try{ const v = localStorage.getItem(key); return v!==null ? {key, value:v, shared:false} : null; }catch(e){ return null; }
+  },
+  async set(key, value){
+    if(hasClaudeStorage){ try{ return await window.storage.set(key, value); }catch(e){ return null; } }
+    try{ localStorage.setItem(key, value); return {key, value, shared:false}; }catch(e){ return null; }
+  }
+};
+
+document.getElementById('envNote').innerHTML = hasClaudeStorage
+  ? '<b>Guardado automático activo</b> — tus datos se guardan en tu cuenta de Claude y persisten entre sesiones. Usa "Exportar" para tener un respaldo o para llevarlos a otra copia del panel (por ejemplo, en GitHub Pages).'
+  : '<b>Guardado local activo</b> — este archivo está fuera de Claude (abierto directamente o en GitHub Pages), así que tus datos se guardan en este navegador y en este dispositivo únicamente. Usa "Exportar" seguido de "Importar" para respaldar tus datos o pasarlos a otro computador/navegador.';
+
+const PHASES = [
+  { id:'A', name:'Fase A · Producción visual', days:'Días 1 a 6', span:[1,6], color:'var(--phaseA)' },
+  { id:'B', name:'Fase B · Publicación en Shopify', days:'Días 7 a 9', span:[7,9], color:'var(--phaseB)' },
+  { id:'C', name:'Fase C · Creación de piezas de comunicación', days:'Días 10 a 14', span:[10,14], color:'var(--phaseC)' },
+  { id:'D', name:'Fase D · Publicación y análisis', days:'Días 15 a 20', span:[15,20], color:'var(--phaseD)' },
+];
+
+function defaultCronograma(){
+  return [
+    {phase:'A', day:1, text:'Hacer fotografía de producto (modelo, producto, detalle, bundles)'},
+    {phase:'A', day:2, text:'Aprobación de fotografía de producto'},
+    {phase:'A', day:3, text:'Definir concepto visual'},
+    {phase:'A', day:4, text:'Aprobación de concepto visual'},
+    {phase:'A', day:6, text:'Crear banners y crear la colección en Shopify'},
+    {phase:'B', day:7, text:'Publicar producto en Shopify (cantidades, colores, precio, descripción, fotos 900×1200, costo, tabla de medidas)'},
+    {phase:'B', day:9, text:'Revisar en varios dispositivos que el producto se vea correctamente'},
+    {phase:'C', day:10, text:'Agregar productos a landing pages de Hombre / Mujer'},
+    {phase:'C', day:11, text:'Crear newsletters'},
+    {phase:'C', day:12, text:'Crear piezas para redes sociales (feed, reels, historias, carruseles)'},
+    {phase:'C', day:13, text:'Crear video Outro / unboxing con IA'},
+    {phase:'C', day:14, text:'Crear anuncios Meta (video y carrusel)'},
+    {phase:'D', day:15, text:'Publicar en Instagram y Facebook'},
+    {phase:'D', day:15, text:'Enviar newsletter (Seguno)'},
+    {phase:'D', day:16, text:'Crear Ads'},
+    {phase:'D', day:20, text:'Analizar datos de resultados de la campaña'},
+    {phase:'D', day:18, text:'Revisión semanal paralela de top-sellers y baja rotación'},
+  ].map((t,i)=>({id:'c'+i+'-'+Date.now(), phase:t.phase, day:t.day, text:t.text, done:false, note:''}));
+}
+
+function defaultKpis(){
+  return [
+    {name:'Lanzamientos a tiempo', target:'100%', actual:'', status:'sin-medir', note:''},
+    {name:'Entregables completos por lanzamiento', target:'100%', actual:'', status:'sin-medir', note:''},
+    {name:'Tiempo aprobación → publicación', target:'≤ X días', actual:'', status:'sin-medir', note:''},
+    {name:'Cumplimiento calendario redes sociales', target:'100%', actual:'', status:'sin-medir', note:''},
+    {name:'Cumplimiento calendario email marketing', target:'100%', actual:'', status:'sin-medir', note:''},
+    {name:'Automatizaciones implementadas', target:'N / mes', actual:'', status:'sin-medir', note:''},
+    {name:'Consistencia visual de marca', target:'Alta', actual:'', status:'sin-medir', note:''},
+    {name:'Calidad de activos publicados', target:'Sin errores', actual:'', status:'sin-medir', note:''},
+    {name:'Cobertura mensual top-seller / baja rotación', target:'100%', actual:'', status:'sin-medir', note:''},
+    {name:'ROAS mínimo aceptable en pauta', target:'≥ 3.0', actual:'', status:'sin-medir', note:''},
+    {name:'Tasa de conversión del sitio', target:'≥ 2%', actual:'', status:'sin-medir', note:''},
+  ].map((k,i)=>({id:'k'+i+'-'+Date.now(), ...k}));
+}
+
+function todayISO(){
+  const d = new Date();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+function defaultState(){
+  return {
+    day: 1,
+    startDate: todayISO(),
+    cronograma: defaultCronograma(),
+    catalogo: { top: [], low: [] },
+    kpis: defaultKpis(),
+    notas: [],
+    campaigns: [],
+    goal: 100000000,
+  };
+}
+
+let state = null;
+let saveTimer = null;
+
+async function loadState(){
+  try{
+    const res = await storageAdapter.get(STORAGE_KEY);
+    if(res && res.value){
+      const parsed = JSON.parse(res.value);
+      state = Object.assign(defaultState(), parsed);
+      if(!state.catalogo) state.catalogo = {top:[], low:[]};
+      if(!Array.isArray(state.cronograma) || state.cronograma.length===0) state.cronograma = defaultCronograma();
+      if(!Array.isArray(state.kpis) || state.kpis.length===0) state.kpis = defaultKpis();
+      if(!Array.isArray(state.campaigns)) state.campaigns = [];
+      if(!state.startDate) state.startDate = todayISO();
+      if(!state.goal) state.goal = 100000000;
+      state.cronograma.forEach(t=>{ if(!t.day) t.day = PHASES.find(p=>p.id===t.phase).span[0]; });
+    } else {
+      state = defaultState();
+    }
+  }catch(e){ state = defaultState(); }
+  renderAll();
+}
+
+function queueSave(){
+  const flag = document.getElementById('save-flag');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    try{
+      await storageAdapter.set(STORAGE_KEY, JSON.stringify(state));
+      flag.classList.add('show');
+      setTimeout(()=>flag.classList.remove('show'), 900);
+    }catch(e){ console.error('Error guardando', e); }
+  }, 300);
+}
+
+function phaseForDay(day){ return PHASES.find(p=>day>=p.span[0] && day<=p.span[1]) || PHASES[0]; }
+
+function renderAll(){
+  renderRing(); renderCronograma(); renderCalendario(); renderCatalogo();
+  renderRendimiento(); renderKpis(); renderNotas(); renderStats();
+}
+
+/* ---------- Ring ---------- */
+function renderRing(){
+  const day = Math.min(20, Math.max(1, state.day));
+  document.getElementById('dayDisplay').textContent = day;
+  document.getElementById('dayInput').value = day;
+  document.getElementById('startDateInput').value = state.startDate;
+  const ph = phaseForDay(day);
+  const lbl = document.getElementById('phaseLabel');
+  lbl.textContent = ph.name.split('·')[0].trim();
+  lbl.style.color = ph.color;
+  const angle = (day/20)*2*Math.PI - Math.PI/2;
+  const R = 74;
+  const cx = 85 + R*Math.cos(angle);
+  const cy = 85 + R*Math.sin(angle);
+  const marker = document.getElementById('marker');
+  marker.style.left = cx+'px'; marker.style.top = cy+'px';
+}
+
+/* ---------- Cronograma ---------- */
+function renderCronograma(){
+  const el = document.getElementById('cronograma');
+  el.innerHTML = '';
+  PHASES.forEach(ph=>{
+    const tasks = state.cronograma.filter(t=>t.phase===ph.id).sort((a,b)=>a.day-b.day);
+    const done = tasks.filter(t=>t.done).length;
+    const block = document.createElement('div');
+    block.className = 'phase';
+    block.innerHTML = `
+      <div class="phase-head" style="border-left-color:${ph.color}">
+        <div><h3>${ph.name}</h3><div class="days">${ph.days}</div></div>
+        <div class="progress-mini">${done}/${tasks.length} listas</div>
+      </div>
+      <div class="phase-body" data-phase="${ph.id}"></div>`;
+    el.appendChild(block);
+    const body = block.querySelector('.phase-body');
+    tasks.forEach(t=>{
+      const row = document.createElement('div');
+      row.className = 'task-row';
+      row.innerHTML = `
+        <input type="checkbox" ${t.done?'checked':''}>
+        <div class="task-main">
+          <div class="task-text ${t.done?'done':''}">${escapeHtml(t.text)}</div>
+          <div class="task-meta"><label>Día</label><input type="number" class="day-pick" min="1" max="20" value="${t.day}"></div>
+          <textarea class="task-note" placeholder="Apunte / observación...">${escapeHtml(t.note||'')}</textarea>
+        </div>
+        <button class="task-del" title="Eliminar tarea">✕</button>`;
+      row.querySelector('input[type=checkbox]').addEventListener('change', e=>{
+        t.done = e.target.checked;
+        row.querySelector('.task-text').classList.toggle('done', t.done);
+        updatePhaseCounter(block, ph.id); renderStats(); renderCalendario(); queueSave();
+      });
+      row.querySelector('.day-pick').addEventListener('change', e=>{
+        let v = parseInt(e.target.value,10); if(isNaN(v)) v = ph.span[0];
+        t.day = Math.min(20, Math.max(1, v));
+        renderCalendario(); queueSave();
+      });
+      row.querySelector('.task-note').addEventListener('input', e=>{ t.note = e.target.value; queueSave(); });
+      row.querySelector('.task-del').addEventListener('click', ()=>{
+        state.cronograma = state.cronograma.filter(x=>x.id!==t.id);
+        renderCronograma(); renderCalendario(); renderStats(); queueSave();
+      });
+      body.appendChild(row);
+    });
+    const addRow = document.createElement('div');
+    addRow.className = 'add-row';
+    addRow.innerHTML = `<input type="text" placeholder="Agregar nueva tarea a esta fase..."><button>Agregar</button>`;
+    const input = addRow.querySelector('input');
+    const addFn = ()=>{
+      const val = input.value.trim(); if(!val) return;
+      state.cronograma.push({id:'c'+Date.now()+Math.random(), phase:ph.id, day:ph.span[0], text:val, done:false, note:''});
+      input.value=''; renderCronograma(); renderCalendario(); renderStats(); queueSave();
+    };
+    addRow.querySelector('button').addEventListener('click', addFn);
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter') addFn(); });
+    body.appendChild(addRow);
+  });
+}
+function updatePhaseCounter(block, phaseId){
+  const tasks = state.cronograma.filter(t=>t.phase===phaseId);
+  const done = tasks.filter(t=>t.done).length;
+  block.querySelector('.progress-mini').textContent = `${done}/${tasks.length} listas`;
+}
+
+/* ---------- Calendario ---------- */
+function parseISODate(iso){ const [y,m,d] = iso.split('-').map(Number); return new Date(y, m-1, d); }
+function addDays(date, n){ const d = new Date(date); d.setDate(d.getDate()+n); return d; }
+function sameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+function renderCalendario(){
+  const el = document.getElementById('calendario');
+  const start = parseISODate(state.startDate);
+  const day1Weekday = (start.getDay()+6)%7; // 0=Mon
+  const leading = day1Weekday;
+  const totalCells = leading + 20;
+  const trailing = (7 - (totalCells % 7)) % 7;
+  const cellsCount = leading + 20 + trailing;
+  const today = new Date();
+
+  let html = `<div class="cal-head-row">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(d=>`<div>${d}</div>`).join('')}</div><div class="cal-grid" id="calGrid"></div>`;
+  el.innerHTML = html;
+  const grid = document.getElementById('calGrid');
+
+  for(let i=0;i<cellsCount;i++){
+    const dayNum = i - leading + 1;
+    if(dayNum<1 || dayNum>20){
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell empty';
+      grid.appendChild(cell);
+      continue;
+    }
+    const date = addDays(start, dayNum-1);
+    const ph = phaseForDay(dayNum);
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (sameDay(date, today) ? ' today' : '');
+    const tasks = state.cronograma.filter(t=>t.day===dayNum);
+    cell.innerHTML = `
+      <div class="cc-top">
+        <span class="cc-date">${date.getDate()} ${date.toLocaleDateString('es-CO',{month:'short'})}</span>
+        <span class="cc-badge" style="background:${ph.color}">D${dayNum}</span>
+      </div>
+      <div class="cc-tasks"></div>
+      <div class="cal-add"><input type="text" placeholder="+ tarea"><button>+</button></div>
+    `;
+    const tasksWrap = cell.querySelector('.cc-tasks');
+    if(tasks.length===0){
+      tasksWrap.innerHTML = `<div style="font-size:10.5px;color:var(--grey);">Sin tareas</div>`;
+    }
+    tasks.forEach(t=>{
+      const row = document.createElement('label');
+      row.className = 'cal-task';
+      row.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span class="${t.done?'done':''}">${escapeHtml(t.text)}</span>`;
+      row.querySelector('input').addEventListener('change', e=>{
+        t.done = e.target.checked; renderCronograma(); renderCalendario(); renderStats(); queueSave();
+      });
+      tasksWrap.appendChild(row);
+    });
+    const addInput = cell.querySelector('.cal-add input');
+    const addBtn = cell.querySelector('.cal-add button');
+    const addFn = ()=>{
+      const val = addInput.value.trim(); if(!val) return;
+      state.cronograma.push({id:'c'+Date.now()+Math.random(), phase:ph.id, day:dayNum, text:val, done:false, note:''});
+      renderCronograma(); renderCalendario(); renderStats(); queueSave();
+    };
+    addBtn.addEventListener('click', addFn);
+    addInput.addEventListener('keydown', e=>{ if(e.key==='Enter') addFn(); });
+    grid.appendChild(cell);
+  }
+}
+
+/* ---------- Catalogo ---------- */
+const STATUS_OPTS = [
+  {v:'revision', label:'En revisión', color:'var(--amber)'},
+  {v:'actualizado', label:'Actualizado', color:'var(--sage)'},
+  {v:'reactivacion', label:'Reactivación en curso', color:'var(--stitch)'},
+  {v:'ok', label:'Sin novedad', color:'var(--grey)'},
+];
+
+function renderCatalogo(){
+  const el = document.getElementById('catalogo');
+  el.innerHTML = `<div class="cat-grid">
+      <div class="cat-col top">
+        <h3>Top-sellers</h3>
+        <div class="cat-sub">Productos que más venden: mantenerlos visibles y sin fricciones.</div>
+        <div id="topList"></div>
+        <button class="add-card-btn" id="addTop">+ Agregar producto top-seller</button>
+      </div>
+      <div class="cat-col low">
+        <h3>Baja rotación</h3>
+        <div class="cat-sub">Productos que venden poco: diagnosticar y reactivar.</div>
+        <div id="lowList"></div>
+        <button class="add-card-btn" id="addLow">+ Agregar producto de baja rotación</button>
+      </div>
+    </div>`;
+  fillCatList('topList', 'top');
+  fillCatList('lowList', 'low');
+  document.getElementById('addTop').addEventListener('click', ()=>addCatItem('top'));
+  document.getElementById('addLow').addEventListener('click', ()=>addCatItem('low'));
+}
+
+function fillCatList(containerId, group){
+  const container = document.getElementById(containerId);
+  const items = state.catalogo[group];
+  if(items.length===0){ container.innerHTML = `<div class="empty-hint">Sin productos registrados todavía.</div>`; return; }
+  container.innerHTML='';
+  items.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.innerHTML = `
+      <div class="row1">
+        <input class="name" type="text" value="${escapeHtml(item.name)}" placeholder="Nombre del producto">
+        <button class="task-del cat-del" title="Eliminar">✕</button>
+      </div>
+      <textarea placeholder="Acción / diagnóstico / próximo paso...">${escapeHtml(item.note||'')}</textarea>
+      <div class="row2">
+        <select class="cat-status">${STATUS_OPTS.map(s=>`<option value="${s.v}" ${s.v===item.status?'selected':''}>${s.label}</option>`).join('')}</select>
+      </div>`;
+    card.querySelector('.name').addEventListener('input', e=>{ item.name = e.target.value; queueSave(); });
+    card.querySelector('textarea').addEventListener('input', e=>{ item.note = e.target.value; queueSave(); });
+    card.querySelector('.cat-status').addEventListener('change', e=>{ item.status = e.target.value; queueSave(); });
+    card.querySelector('.cat-del').addEventListener('click', ()=>{
+      state.catalogo[group] = state.catalogo[group].filter(x=>x.id!==item.id);
+      renderCatalogo(); renderStats(); queueSave();
+    });
+    container.appendChild(card);
+  });
+}
+function addCatItem(group){
+  state.catalogo[group].push({id:'p'+Date.now()+Math.random(), name:'', status:'revision', note:''});
+  renderCatalogo(); renderStats(); queueSave();
+}
+
+/* ---------- Rendimiento de campañas ---------- */
+const CHANNELS = [
+  {id:'google', label:'Google Ads', color:'var(--google)'},
+  {id:'meta', label:'Meta Ads', color:'var(--meta)'},
+  {id:'organico', label:'Orgánico', color:'var(--organico)'},
+];
+
+function fmtCOP(n){
+  n = Number(n)||0;
+  return '$' + n.toLocaleString('es-CO', {maximumFractionDigits:0});
+}
+
+function renderRendimiento(){
+  const el = document.getElementById('rendimiento');
+  const totalInv = state.campaigns.reduce((s,c)=>s+(Number(c.spend)||0),0);
+  const totalRev = state.campaigns.reduce((s,c)=>s+(Number(c.revenue)||0),0);
+  const totalConv = state.campaigns.reduce((s,c)=>s+(Number(c.conversions)||0),0);
+  const roas = totalInv>0 ? (totalRev/totalInv).toFixed(2) : '—';
+  const pctGoal = state.goal>0 ? Math.min(100, (totalRev/state.goal)*100) : 0;
+
+  el.innerHTML = `
+    <div class="perf-summary">
+      <div class="perf-card goal">
+        <div class="plabel">Meta mensual de ingresos (COP)</div>
+        <input type="number" id="goalInput" value="${state.goal}">
+        <div class="progress-bar"><div class="fill" style="width:${pctGoal}%"></div></div>
+        <div style="font-size:11px;color:var(--grey);margin-top:4px;">${pctGoal.toFixed(1)}% de la meta</div>
+      </div>
+      <div class="perf-card"><div class="plabel">Ingresos registrados</div><div class="pval">${fmtCOP(totalRev)}</div></div>
+      <div class="perf-card"><div class="plabel">Inversión total en pauta</div><div class="pval">${fmtCOP(totalInv)}</div></div>
+      <div class="perf-card"><div class="plabel">ROAS global</div><div class="pval">${roas}</div></div>
+      <div class="perf-card"><div class="plabel">Conversiones totales</div><div class="pval">${totalConv}</div></div>
+    </div>
+    ${CHANNELS.map(ch=>channelBlockHtml(ch)).join('')}
+  `;
+  document.getElementById('goalInput').addEventListener('input', e=>{
+    state.goal = Number(e.target.value)||0; renderRendimiento(); renderStats(); queueSave();
+  });
+  CHANNELS.forEach(ch=>wireChannel(ch));
+}
+
+function channelBlockHtml(ch){
+  return `
+    <div class="channel-block">
+      <div class="channel-title"><span class="channel-dot" style="background:${ch.color}"></span><h3>${ch.label}</h3></div>
+      <table class="camp">
+        <thead><tr>
+          <th>Campaña</th><th>Inversión</th><th>Alcance</th><th>Clics</th><th>Conversiones</th><th>Ingresos</th><th>Tasa conv.</th><th>ROAS</th><th></th>
+        </tr></thead>
+        <tbody id="body-${ch.id}"></tbody>
+      </table>
+      <div class="add-row"><input type="text" id="newname-${ch.id}" placeholder="Nombre de nueva campaña en ${ch.label}..."><button id="addbtn-${ch.id}">Agregar</button></div>
+    </div>`;
+}
+
+function wireChannel(ch){
+  const body = document.getElementById('body-'+ch.id);
+  const rows = state.campaigns.filter(c=>c.channel===ch.id);
+  body.innerHTML='';
+  if(rows.length===0){
+    body.innerHTML = `<tr><td colspan="9" style="color:var(--grey);font-style:italic;">Sin campañas registradas.</td></tr>`;
+  }
+  rows.forEach(c=>{
+    const clicks = Number(c.clicks)||0;
+    const conv = Number(c.conversions)||0;
+    const spend = Number(c.spend)||0;
+    const rev = Number(c.revenue)||0;
+    const convRate = clicks>0 ? ((conv/clicks)*100).toFixed(1)+'%' : '—';
+    const rowRoas = spend>0 ? (rev/spend).toFixed(2) : '—';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="f-name" value="${escapeHtml(c.name||'')}"></td>
+      <td><input type="number" class="f-spend" value="${c.spend||0}"></td>
+      <td><input type="number" class="f-reach" value="${c.reach||0}"></td>
+      <td><input type="number" class="f-clicks" value="${c.clicks||0}"></td>
+      <td><input type="number" class="f-conv" value="${c.conversions||0}"></td>
+      <td><input type="number" class="f-rev" value="${c.revenue||0}"></td>
+      <td style="white-space:nowrap;">${convRate}</td>
+      <td style="white-space:nowrap;">${rowRoas}</td>
+      <td><button class="kpi-del">✕</button></td>`;
+    const bindNum = (sel, field)=>tr.querySelector(sel).addEventListener('input', e=>{
+      c[field]=e.target.value; renderRendimiento(); renderStats(); queueSave();
+    });
+    tr.querySelector('.f-name').addEventListener('input', e=>{ c.name=e.target.value; queueSave(); });
+    bindNum('.f-spend','spend'); bindNum('.f-reach','reach'); bindNum('.f-clicks','clicks');
+    bindNum('.f-conv','conversions'); bindNum('.f-rev','revenue');
+    tr.querySelector('.kpi-del').addEventListener('click', ()=>{
+      state.campaigns = state.campaigns.filter(x=>x.id!==c.id);
+      renderRendimiento(); renderStats(); queueSave();
+    });
+    body.appendChild(tr);
+  });
+  document.getElementById('addbtn-'+ch.id).addEventListener('click', ()=>{
+    const input = document.getElementById('newname-'+ch.id);
+    const val = input.value.trim(); if(!val) return;
+    state.campaigns.push({id:'camp'+Date.now()+Math.random(), channel:ch.id, name:val, spend:0, reach:0, clicks:0, conversions:0, revenue:0});
+    renderRendimiento(); renderStats(); queueSave();
+  });
+  document.getElementById('newname-'+ch.id).addEventListener('keydown', e=>{
+    if(e.key==='Enter') document.getElementById('addbtn-'+ch.id).click();
+  });
+}
+
+/* ---------- KPIs ---------- */
+const KPI_STATUS = [
+  {v:'sin-medir', label:'Sin medir'}, {v:'al-dia', label:'Al día'},
+  {v:'en-riesgo', label:'En riesgo'}, {v:'atrasado', label:'Atrasado'},
+];
+
+function renderKpis(){
+  const el = document.getElementById('kpis');
+  el.innerHTML = `
+    <table class="kpi">
+      <thead><tr><th>Indicador</th><th>Meta</th><th>Real</th><th>Estado</th><th>Nota</th><th></th></tr></thead>
+      <tbody id="kpiBody"></tbody>
+    </table>
+    <div class="add-row add-kpi"><input type="text" id="newKpiName" placeholder="Agregar nuevo indicador..."><button id="addKpiBtn">Agregar</button></div>`;
+  const body = document.getElementById('kpiBody');
+  state.kpis.forEach(k=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="name">${escapeHtml(k.name)}</td>
+      <td><input type="text" class="kTarget" value="${escapeHtml(k.target||'')}"></td>
+      <td><input type="text" class="kActual" value="${escapeHtml(k.actual||'')}"></td>
+      <td><select class="kStatus">${KPI_STATUS.map(s=>`<option value="${s.v}" ${s.v===k.status?'selected':''}>${s.label}</option>`).join('')}</select></td>
+      <td><textarea class="kNote" rows="1">${escapeHtml(k.note||'')}</textarea></td>
+      <td><button class="kpi-del">✕</button></td>`;
+    tr.querySelector('.kTarget').addEventListener('input', e=>{k.target=e.target.value; queueSave();});
+    tr.querySelector('.kActual').addEventListener('input', e=>{k.actual=e.target.value; queueSave();});
+    tr.querySelector('.kStatus').addEventListener('change', e=>{k.status=e.target.value; renderStats(); queueSave();});
+    tr.querySelector('.kNote').addEventListener('input', e=>{k.note=e.target.value; queueSave();});
+    tr.querySelector('.kpi-del').addEventListener('click', ()=>{
+      state.kpis = state.kpis.filter(x=>x.id!==k.id); renderKpis(); renderStats(); queueSave();
+    });
+    body.appendChild(tr);
+  });
+  document.getElementById('addKpiBtn').addEventListener('click', ()=>{
+    const input = document.getElementById('newKpiName'); const val = input.value.trim(); if(!val) return;
+    state.kpis.push({id:'k'+Date.now()+Math.random(), name:val, target:'', actual:'', status:'sin-medir', note:''});
+    renderKpis(); renderStats(); queueSave();
+  });
+}
+
+/* ---------- Notas ---------- */
+function renderNotas(){
+  const el = document.getElementById('notas');
+  el.innerHTML = `
+    <div class="notas-add"><input type="text" id="notaInput" placeholder="Escribe una tarea nueva, apunte o pendiente..."><button id="notaAddBtn">Agregar</button></div>
+    <div id="notaList"></div>`;
+  const list = document.getElementById('notaList');
+  if(state.notas.length===0){
+    list.innerHTML = `<div class="empty-hint">No tienes notas ni tareas sueltas pendientes.</div>`;
+  } else {
+    state.notas.slice().sort((a,b)=>(a.done-b.done)||(b.created-a.created)).forEach(n=>{
+      const row = document.createElement('div');
+      row.className = 'nota-item';
+      const d = new Date(n.created);
+      row.innerHTML = `
+        <input type="checkbox" ${n.done?'checked':''}>
+        <div style="flex:1"><div class="txt ${n.done?'done':''}">${escapeHtml(n.text)}</div>
+        <div class="date">${d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}</div></div>
+        <button class="nota-del">✕</button>`;
+      row.querySelector('input[type=checkbox]').addEventListener('change', e=>{ n.done=e.target.checked; renderNotas(); queueSave(); });
+      row.querySelector('.nota-del').addEventListener('click', ()=>{ state.notas = state.notas.filter(x=>x.id!==n.id); renderNotas(); queueSave(); });
+      list.appendChild(row);
+    });
+  }
+  const addFn = ()=>{
+    const input = document.getElementById('notaInput'); const val = input.value.trim(); if(!val) return;
+    state.notas.push({id:'n'+Date.now()+Math.random(), text:val, done:false, created:Date.now()});
+    input.value=''; renderNotas(); queueSave();
+  };
+  document.getElementById('notaAddBtn').addEventListener('click', addFn);
+  document.getElementById('notaInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addFn(); });
+}
+
+/* ---------- Stats ---------- */
+function renderStats(){
+  const total = state.cronograma.length;
+  const done = state.cronograma.filter(t=>t.done).length;
+  document.getElementById('statTasks').textContent = `${done}/${total}`;
+  const risky = state.kpis.filter(k=>k.status==='en-riesgo'||k.status==='atrasado').length;
+  document.getElementById('statKpi').textContent = risky;
+  document.getElementById('statCat').textContent = state.catalogo.top.length + state.catalogo.low.length;
+  const totalInv = state.campaigns.reduce((s,c)=>s+(Number(c.spend)||0),0);
+  const totalRev = state.campaigns.reduce((s,c)=>s+(Number(c.revenue)||0),0);
+  document.getElementById('statRoas').textContent = totalInv>0 ? (totalRev/totalInv).toFixed(2) : '—';
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- Day / start date controls ---------- */
+document.getElementById('dayMinus').addEventListener('click', ()=>{ state.day=Math.max(1,state.day-1); renderRing(); queueSave(); });
+document.getElementById('dayPlus').addEventListener('click', ()=>{ state.day=Math.min(20,state.day+1); renderRing(); queueSave(); });
+document.getElementById('dayInput').addEventListener('change', e=>{
+  let v = parseInt(e.target.value,10); if(isNaN(v)) v=1;
+  state.day = Math.min(20, Math.max(1, v)); renderRing(); queueSave();
+});
+document.getElementById('startDateInput').addEventListener('change', e=>{
+  state.startDate = e.target.value || todayISO();
+  renderCalendario(); queueSave();
+});
+
+document.getElementById('resetCycle').addEventListener('click', ()=>{
+  if(!confirm('Esto reinicia el día a 1 y desmarca todas las tareas del cronograma (catálogo, campañas, KPIs y notas se conservan). ¿Continuar?')) return;
+  state.day = 1;
+  state.startDate = todayISO();
+  state.cronograma = defaultCronograma();
+  renderAll(); queueSave();
+});
+
+/* ---------- Export / Import / Print ---------- */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'panel-ecommerce-serrania-datos.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('importFile').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const parsed = JSON.parse(reader.result);
+      state = Object.assign(defaultState(), parsed);
+      renderAll(); queueSave();
+      alert('Datos importados correctamente.');
+    }catch(err){ alert('No se pudo leer el archivo. Verifica que sea un .json exportado desde este panel.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+loadState();
+</script>
+</body>
+</html>
